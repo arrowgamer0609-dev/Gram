@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Infrastructure Services - GramTaluka Panchayat</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f9fafb;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: #007b5e;
+      transition: color 0.3s ease;
+    }
+    a:hover {
+      color: #004d40;
+    }
+
+    header {
+      background-color: #007b5e;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 1001;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav li {
+      margin-left: 2rem;
+    }
+
+    nav li:first-child {
+      margin-left: 0;
+    }
+
+    nav a {
+      color: white;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    nav a:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      nav ul {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 280px;
+        height: 100vh;
+        background-color: #007b5e;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 80px;
+        transition: right 0.3s ease-in-out;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+      }
+
+      nav ul.show {
+        right: 0;
+      }
+
+      nav li {
+        margin: 1rem 0;
+        width: 100%;
+        text-align: center;
+      }
+
+      nav a {
+        display: block;
+        width: 80%;
+        padding: 1rem;
+        font-size: 1.1rem;
+      }
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #007b5e 0%, #ffb300 100%);
+      color: white;
+      padding: 6rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="roads" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><rect x="18" y="0" width="4" height="40" fill="rgba(255,255,255,0.18)"/><rect x="19" y="8" width="2" height="4" fill="rgba(255,255,255,0.6)"/><rect x="19" y="18" width="2" height="4" fill="rgba(255,255,255,0.6)"/></pattern></defs><rect width="100" height="100" fill="url(%23roads)"/></svg>');
+      opacity: 0.25;
+    }
+
+    .banner-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .banner h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .banner p {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 3rem 2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h2.section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #007b5e;
+      letter-spacing: 1.5px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,123,94,0.1);
+      border-top: 4px solid #007b5e;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #007b5e;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #555;
+      font-size: 1.1rem;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,123,94,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,123,94,0.2);
+    }
+
+    .feature-icon {
+      font-size: 3.5rem;
+      display: block;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      color: #007b5e;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .status-updates {
+      background: linear-gradient(135deg, #fff8e1 0%, #ffe082 100%);
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      background: white;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .status-icon {
+      font-size: 2rem;
+      margin-right: 1rem;
+    }
+
+    .contact-card {
+      background: white;
+      border-radius: 15px;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,123,94,0.1);
+      border-top: 4px solid #007b5e;
+    }
+
+    .contact-card h3 {
+      color: #007b5e;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #007b5e 0%, #ffb300 100%);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      margin-top: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,123,94,0.3);
+    }
+
+    footer {
+      background-color: #004d40;
+      color: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .banner h1 {
+        font-size: 2.2rem;
+      }
+      
+      main {
+        padding: 2rem 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">GramTaluka</div>
+  <nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <ul id="nav-list">
+      <li><a href="Project.html" onclick="closeMenu()">Home</a></li>
+      <li><a href="#services" onclick="closeMenu()">Services</a></li>
+      <li><a href="#news" onclick="closeMenu()">News</a></li>
+      <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="banner">
+  <div class="banner-content">
+    <h1>Infrastructure Services</h1>
+    <p>Better roads, clean surroundings, and public facilities for all</p>
+  </div>
+</section>
+
+<main>
+  <section>
+    <h2 class="section-title">Infrastructure Statistics</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">18 km</div>
+        <div class="stat-label">Paved Village Roads</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Street Lighting Coverage</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">95%</div>
+        <div class="stat-label">Household Toilets</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">8</div>
+        <div class="stat-label">Public Facilities (parks, halls)</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <h2 class="section-title">Our Infrastructure Services</h2>
+    <div class="features">
+      <div class="feature-card">
+        <span class="feature-icon">🛤️</span>
+        <h3>Road Construction & Repair</h3>
+        <p>Construction and maintenance of village roads for safe and all-weather connectivity.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">💡</span>
+        <h3>Street Lighting</h3>
+        <p>Installation and repair of street lights for improved safety during night hours.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🚮</span>
+        <h3>Sanitation & Waste Management</h3>
+        <p>Regular cleaning of public areas, drains, and solid waste collection and disposal.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🚽</span>
+        <h3>Public Toilets & Drinking Water</h3>
+        <p>Maintenance of community toilets and public drinking water points in key locations.</p>
+      </div>
+      
+  </section>
+
+  <section id="news">
+    <h2 class="section-title">Current Infrastructure Updates</h2>
+    <div class="status-updates">
+      <div class="status-item">
+        <span class="status-icon">🚧</span>
+        <strong>Road Repair Work</strong> - Main market road resurfacing from Dec 12–18, 2025.</strong>
+      </div>
+      <div class="status-item">
+        <span class="status-icon">🧹</span>
+        <strong>Cleanliness Drive</strong> - Village-wide Swachhata campaign on Dec 16, 2025.</strong>
+      </div>
+      <div class="status-item">
+        <span class="status-icon">💡</span>
+        <strong>Street Light Maintenance</strong> - Faulty lights in Sector 2 to be replaced by Dec 20, 2025.</strong>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-card">
+      <h3>Report Infrastructure Issues</h3>
+      <p style="margin-bottom: 1.5rem; color: #555;">Inform the Panchayat office about potholes, broken street lights, blocked drains, or damaged public property.</p>
+      <p style="font-size: 1.2rem; margin-bottom: 0.5rem;"><strong>Panchayat Office: +91 93456 78901</strong></p>
+      <p style="margin-bottom: 0.5rem;">Infrastructure Engineer: +91 94567 89012</p>
+      <p>Sanitation Supervisor: +91 95678 90123</p>
+      <a href="tel:+919345678901" class="btn">Call Panchayat Office</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 GramTaluka Panchayat • Follow us on 
+  <a href="#" style="color:#80cbc4;">Facebook</a>, 
+  <a href="#" style="color:#80cbc4;">Twitter</a>, 
+  <a href="#" style="color:#80cbc4;">Instagram</a>
+</footer>
+
+<script>
+  function toggleMenu() {
+    const navList = document.getElementById('nav-list');
+    navList.classList.toggle('show');
+  }
+
+  function closeMenu() {
+    const navList = document.getElementById('nav-list');
+    navList.classList.remove('show');
+  }
+
+  document.addEventListener('click', function(event) {
+    const nav = document.querySelector('nav');
+    const menuToggle = document.querySelector('.menu-toggle');
+    
+    if (!nav.contains(event.target) && !menuToggle.contains(event.target)) {
+      closeMenu();
+    }
+  });
+</script>
+
+</body>
+</html>

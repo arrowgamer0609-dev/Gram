@@ -1,0 +1,335 @@
+
+<html lang="en">
+<head>
+
+<title>GramTaluka Panchayat</title>
+<style>
+  /* Reset and base styles */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    background: #f9fafb;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a {
+    text-decoration: none;
+    color: #007b5e;
+    transition: color 0.3s ease;
+  }
+  a:hover {
+    color: #004d40;
+  }
+
+  /* Header */
+  header {
+    background-color: #007b5e;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  header .logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  /* Navigation */
+  .menu-toggle {
+    display: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001;
+  }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav li {
+    margin-left: 2rem;
+  }
+
+  nav li:first-child {
+    margin-left: 0;
+  }
+
+  nav a {
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+  }
+
+  nav a:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* Mobile Menu Styles */
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+    }
+
+    nav ul {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background-color: #007b5e;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding-top: 80px;
+      transition: right 0.3s ease-in-out;
+      box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+    }
+
+    nav ul.show {
+      right: 0;
+    }
+
+    nav li {
+      margin: 1rem 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    nav li:first-child {
+      margin-top: 0;
+    }
+
+    nav a {
+      display: block;
+      width: 80%;
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
+  }
+
+  /* Banner */
+  .banner {
+    background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80');
+    color: white;
+    padding: 6rem 2rem;
+    text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0% 100%);
+  }
+
+  .banner h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+  }
+
+  .banner p {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  }
+
+  /* Main content */
+  main {
+    flex-grow: 1;
+    padding: 3rem 2rem;
+    max-width: 1100px;
+    margin: auto;
+  }
+
+  /* Section title */
+  h2.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #007b5e;
+    letter-spacing: 1.5px;
+  }
+
+  /* Cards grid */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,123,94,0.1);
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 30px rgba(0,123,94,0.3);
+  }
+
+  .card i {
+    font-size: 3rem;
+    color: #007b5e;
+    margin-bottom: 1rem;
+    display: block;
+    text-align: center;
+  }
+
+  .card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.0rem;
+    text-align: center;
+  }
+
+  .card p {
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+  }
+
+  /* Footer */
+  footer {
+    background-color: #004d40;
+    color: white;
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 768px) {
+    .banner h1 {
+      font-size: 2.2rem;
+    }
+    
+    main {
+      padding: 2rem 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">GramTaluka</div>
+  <nav>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <ul id="nav-list">
+      <li><a href="#home" onclick="closeMenu()">Home</a></li>
+      <li><a href="#services" onclick="closeMenu()">Services</a></li>
+      <li><a href="#news" onclick="closeMenu()">News</a></li>
+      
+      <li><a href="#contact" onclick="closeMenu()">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="banner" id="home">
+  <h1>Welcome to GramTaluka Panchayat</h1>
+  <p>Your local government, working for you</p>
+</section>
+
+<main>
+  <section id="services">
+    <h2 class="section-title">Our Services</h2>
+    <div class="cards">
+      <a href="Watersupply.html" class="card">
+        <i>🚰</i>
+        <h3>Water Supply</h3>
+        <p>Ensuring clean and safe drinking water for all residents. <strong>Click for details</strong></p>
+      </a>
+      <div class="card">
+        <a href="Health.html" class="card">
+        <i>🏥</i>
+        <h3>Health Services</h3>
+        <p>Providing medical aid and wellness programs in the community.</p>
+        </a>
+      </div>
+      <div class="card">
+        <a href="Education.html" class="card">
+        <i>📚</i>
+        <h3>Education</h3>
+        <p>Promoting education and literacy among villagers of all ages.</p>
+        </a>
+      </div>
+      <div class="card">
+        <a href="Infrastructure.html" class="card">
+        <i>🛤️</i>
+        <h3>Infrastructure</h3>
+        <p>Developing and maintaining roads, sanitation, and public facilities.</p>
+        </a>  
+      </div>
+    </div>
+  </section>
+
+  <section id="news" style="margin-top: 4rem;">
+    <h2 class="section-title">Latest News & Announcements</h2>
+    <article style="background: #e0f2f1; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem;">
+      <h3>Community Health Checkup Camp</h3>
+      <p>Date: October 25, 2025. Free health checkup camp at the Panchayat Hall. All residents are welcome.</p>
+    </article>
+    <article style="background: #e0f2f1; padding: 1.5rem; border-radius: 8px;">
+      <h3>Road Repair Project</h3>
+      <p>Starting November 5, 2025. Major renovations on village roads to improve connectivity.</p>
+    </article>
+  </section>
+
+  <section id="contact" style="margin-top: 4rem;">
+    <h2 class="section-title">Contact Us</h2>
+    <p style="text-align: center; margin-bottom: 1rem;">Have questions or need assistance? Reach out to us!</p>
+    <address style="text-align: center; font-style: normal;">
+      GramTaluka Panchayat Office<br />
+      123 Village Road, GramTaluka<br />
+      Phone: +91 12345 67890<br />
+      Email: <a href="mailto:contact@gramtaluka.gov.in" style="color: #007b5e;">contact@gramtaluka.gov.in</a>
+    </address>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 GramTaluka Panchayat • Follow us on 
+  <a href="#" style="color:#80cbc4;">Facebook</a>, 
+  <a href="#" style="color:#80cbc4;">Twitter</a>, 
+  <a href="#" style="color:#80cbc4;">Instagram</a>
+</footer>
+
+<script>
+  function toggleMenu() {
+    const navList = document.getElementById('nav-list');
+    navList.classList.toggle('show');
+  }
+
+  function closeMenu() {
+    const navList = document.getElementById('nav-list');
+    navList.classList.remove('show');
+  }
+
+  // Close menu when clicking outside
+  document.addEventListener('click', function(event) {
+    const nav = document.querySelector('nav');
+    const menuToggle = document.querySelector('.menu-toggle');
+    
+    if (!nav.contains(event.target) && !menuToggle.contains(event.target)) {
+      closeMenu();
+    }
+  });
+</script>
+
+</body>
+</html>
